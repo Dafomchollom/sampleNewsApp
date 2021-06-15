@@ -125,7 +125,6 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       {/* <AppHeader /> */}
-      <Text style={styles.title}>Latest News</Text>
       <Button
         title="Create News"
         onPress={() =>
@@ -134,40 +133,13 @@ export default function Home({ navigation }) {
             obj: {},
           })
         }
-        // loading={submitting}
-        // icon={{
-        //   name: route.params?.item ? 'edit' : 'add',
-        //   color: 'white',
-        // }}
-        // buttonStyle={{ height: 'auto' }}
-        // onPress={handleSubmit}
       />
+      <Text style={styles.title}>Latest News</Text>
+
       <AppPaginationComponent
         onClick={paginationHandler}
         currentPage={currentPage}
       />
-
-      {/* <ScrollView style={styles.listContainer}>
-        <View style={styles.content}>
-          <View style={styles.list}>
-            {articles.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate('Details', {
-                    newsId: item.id,
-                  })
-                }
-              >
-                <AppArticleCardComponent data={item} />
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        <View style={styles.Button}>
-          <Button title="update name" />
-        </View>
-      </ScrollView> */}
       <FlatList
         data={articles}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -188,12 +160,9 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 35,
-    // textAlign: 'center',
     marginVertical: 10,
   },
-  content: {
-    // backgroundColor: "red",
-  },
+  content: {},
   listContainer: {
     paddingBottom: 100,
     marginTop: 0,
