@@ -23,7 +23,6 @@ export default class AppleStyleSwipeableRow extends Component {
     const pressHandler = () => {
       this.close();
       this.props.onClick(text);
-      //   console.log(text);
     };
     return (
       <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>

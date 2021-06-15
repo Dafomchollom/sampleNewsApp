@@ -1,12 +1,19 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
-import AppHeader from "../components/AppHeaderComponent";
-import axios from "axios";
-import AppArticleCardComponent from "../components/AppArticleCardComponent";
-import Carousel from "../components/AppCarouselComponent";
-import { Card } from "react-native-elements";
-import AppCommentComponent from "../components/AppCommentComponent";
+import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
+import AppHeader from '../components/AppHeaderComponent';
+import axios from 'axios';
+import AppArticleCardComponent from '../components/AppArticleCardComponent';
+import Carousel from '../components/AppCarouselComponent';
+import { Card } from 'react-native-elements';
+import AppCommentComponent from '../components/AppCommentComponent';
 export default function Home({ route }) {
   // get newsId param
   const { newsId } = route.params;
@@ -22,14 +29,13 @@ export default function Home({ route }) {
       const res = await axios.get(
         `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news/${id}`
       );
-      console.log(res.data, "::::: news :::::::");
+      (res.data, '::::: news :::::::');
       // set news state with response
       setNews(res.data);
     } catch (e) {
-      console.log(e.message, "error message");
-      Alert.alert("Oops!", e.message, [
+      Alert.alert('Oops!', e.message, [
         {
-          text: "UnderStood",
+          text: 'UnderStood',
         },
       ]);
     }
@@ -40,14 +46,12 @@ export default function Home({ route }) {
       const res = await axios.get(
         `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news/${id}/comments`
       );
-      console.log(res.data, "::::: news :::::::");
       // set news state with response
       setComments(res.data);
     } catch (e) {
-      console.log(e.message, "error message");
-      Alert.alert("Oops!", e.message, [
+      Alert.alert('Oops!', e.message, [
         {
-          text: "UnderStood",
+          text: 'UnderStood',
         },
       ]);
     }
@@ -58,14 +62,12 @@ export default function Home({ route }) {
       const res = await axios.get(
         `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news/${id}/images`
       );
-      //   console.log(res.data, '::::: news images :::::::');
       // set news image state with response
       setNewsImage(res.data);
     } catch (e) {
-      console.log(e.message, "error message");
-      Alert.alert("Oops!", e.message, [
+      Alert.alert('Oops!', e.message, [
         {
-          text: "UnderStood",
+          text: 'UnderStood',
         },
       ]);
     }
@@ -82,19 +84,21 @@ export default function Home({ route }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <View style={styles.body}>
-          <Text style={styles.title}>{news.title}</Text>
-          <Text style={styles.author}>{news.author}</Text>
-          <Carousel images={newsImage} />
-          <Text>{news.body}</Text>
-          <Card.Divider />
-          <View>
-            <Text>Date: {news.createdAt}</Text>
+        <KeyboardAvoidingView>
+          <View style={styles.body}>
+            <Text style={styles.title}>{news.title}</Text>
+            <Text style={styles.author}>{news.author}</Text>
+            <Carousel images={newsImage} />
+            <Text>{news.body}</Text>
+            <Card.Divider />
+            <View>
+              <Text>Date: {news.createdAt}</Text>
+            </View>
           </View>
-        </View>
-        <View>
-          <AppCommentComponent newsId={newsId} />
-        </View>
+          <View>
+            <AppCommentComponent newsId={newsId} />
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </View>
   );
@@ -109,21 +113,21 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   body: {
-    color: "#000",
-    backgroundColor: "#fff",
+    color: '#000',
+    backgroundColor: '#fff',
     marginVertical: 20,
     paddingTop: 10,
     paddingBottom: 20,
     marginTop: 0,
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 32,
     borderWidth: 0,
     marginBottom: 5,
   },
   author: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
     fontSize: 20,
     opacity: 0.5,

@@ -7,9 +7,7 @@ const ArticleCard = ({ data }) => {
   const trimhandler = (data) => {
     return `${data?.substring(0, 100)}... ${'Continue Reading'}`;
   };
-  React.useEffect(() => {
-    console.log(data, '::::: data data ::::');
-  }, [data]);
+
   return (
     <Card containerStyle={styles.container} borderWidth={0}>
       <View style={styles.cardBody}>

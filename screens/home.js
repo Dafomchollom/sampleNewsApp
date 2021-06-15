@@ -13,20 +13,22 @@ import {
 import axios from 'axios';
 import AppArticleCardComponent from '../components/AppArticleCardComponent';
 import AppSwipeComponent from '../components/AppSwipeComponent';
-
+import AppPaginationComponent from '../components/AppPaginationComponent';
 export default function Home({ navigation }) {
   // const articles state
   const [articles, setArticles] = useState([]);
+  // const articles pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  // payload State
+  const [payload, setPayload] = React.useState({});
   // fetch articles function
-  const fetchArticles = async () => {
+  const fetchArticles = async (page) => {
     try {
       const res = await axios.get(
-        'https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news?page=1&limit=10'
+        `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news?page=${page}&limit=10`
       );
       setArticles(res.data);
-      console.log('res.data:::', res.data);
     } catch (e) {
-      console.log(e.message, 'error message');
       Alert.alert('Oops!', e.message, [
         {
           text: 'UnderStood',
@@ -41,9 +43,30 @@ export default function Home({ navigation }) {
         `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news/`
       );
       setArticles(res.data);
-      console.log('res.data:::', res.data);
     } catch (e) {
-      console.log(e.message, 'error message');
+      Alert.alert('Oops!', e.message, [
+        {
+          text: 'UnderStood',
+        },
+      ]);
+    }
+  };
+  // delete comments
+  const deleteNewsHandler = async (id) => {
+    try {
+      await axios.delete(
+        `https://5e4bfc87a641ed0014b02740.mockapi.io/api/clane/news/${id}/comments/${payload.id}`,
+        payload
+      );
+      Alert.alert('Success!', 'your News has been Deleted successfully', [
+        {
+          text: 'UnderStood',
+        },
+      ]);
+      setMode('create');
+      setPayload({});
+      getCommentHandler(newsId);
+    } catch (e) {
       Alert.alert('Oops!', e.message, [
         {
           text: 'UnderStood',
@@ -52,16 +75,38 @@ export default function Home({ navigation }) {
     }
   };
   //swipe actions article
-  const swipeActionsHandler = (action, item) => {
-    console.log(action, 'i have been clicked', item);
+  const swipeActionsHandler = (item, action) => {
+    setPayload(item);
+    if (action === 'Edit') {
+      navigation.navigate('Create', {
+        mode: 'Edit',
+        obj: item.item,
+      });
+    } else {
+      deleteNewsHandler(item.item.id);
+    }
+  };
+  // pagination handler
+  const paginationHandler = (currPage) => {
+    if (parseInt(currPage) === 0) {
+      setCurrentPage((page) => (page <= 1 ? 1 : page - 1));
+    }
+
+    if (parseInt(currPage) === 2) {
+      setCurrentPage((page) => page + 1);
+    }
   };
   // fetch articles on mounted
   useEffect(() => {
-    fetchArticles();
+    fetchArticles(currentPage);
   }, []);
+
+  //   fetch article on page change
+  useEffect(() => {
+    fetchArticles(currentPage);
+  }, [currentPage]);
   // swippable component wrapper
   const AppSwipeComponentWrapper = (item, index) => {
-    console.log(item, ':::::: item item :::::::');
     return (
       <AppSwipeComponent onClick={swipeActionsHandler.bind(this, item)}>
         <TouchableOpacity
@@ -81,6 +126,26 @@ export default function Home({ navigation }) {
     <View style={styles.container}>
       {/* <AppHeader /> */}
       <Text style={styles.title}>Latest News</Text>
+      <Button
+        title="Create News"
+        onPress={() =>
+          navigation.navigate('Create', {
+            mode: 'create',
+            obj: {},
+          })
+        }
+        // loading={submitting}
+        // icon={{
+        //   name: route.params?.item ? 'edit' : 'add',
+        //   color: 'white',
+        // }}
+        // buttonStyle={{ height: 'auto' }}
+        // onPress={handleSubmit}
+      />
+      <AppPaginationComponent
+        onClick={paginationHandler}
+        currentPage={currentPage}
+      />
 
       {/* <ScrollView style={styles.listContainer}>
         <View style={styles.content}>

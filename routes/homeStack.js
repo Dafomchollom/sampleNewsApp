@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../screens/home';
 import ArticleDetails from '../screens/articleDetails';
+import CreateNews from '../screens/createNews';
 import { NavigationContainer } from '@react-navigation/native';
 
 const screens = {
@@ -41,6 +42,11 @@ const App = () => {
           name="Details"
           component={ArticleDetails}
           options={{ title: 'Details' }}
+        />
+        <Stack.Screen
+          name="Create"
+          component={CreateNews}
+          options={{ title: 'News' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

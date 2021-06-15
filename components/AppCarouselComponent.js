@@ -27,9 +27,7 @@ const Carousel = ({ images }) => {
       }}
     />
   );
-  React.useEffect(() => {
-    console.log(':::: images ::::', images);
-  }, [images]);
+
   return (
     <View style={styles.container}>
       <View style={styles.scrollContainer}>
